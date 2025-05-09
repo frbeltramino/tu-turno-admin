@@ -12,6 +12,12 @@ export const purpleTheme = createTheme({
     error: {
       main: red.A400
     },
+    cardGreen: {
+      main: '#55B56F'
+    },
+    cardRed: {
+      main: '#9A364C'
+    }
 
   },
 })

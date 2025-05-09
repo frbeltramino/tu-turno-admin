@@ -3,9 +3,25 @@ import { AuthContext } from "../context/AuthContext";
 import tuTurnoApi from "../api/tuTurnoApi";
 
 
+
 export const useAuth = () => {
 
-  const { user, setUser, error, setError, loadingLogin, setLoadingLogin, setAuthStatus } = useContext(AuthContext);
+  const { 
+    user,
+    setUser,
+    errorLogin,
+    setErrorLogin,
+    loadingLogin,
+    setLoadingLogin,
+    setAuthStatus,
+    authStatus,
+    login,
+    logout,
+    errorRegister,
+    setErrorRegister,
+    loadingRegister,
+    setLoadingRegister
+   } = useContext(AuthContext);
 
 
   const startLogin = async( {email, password}) => {
@@ -13,7 +29,7 @@ export const useAuth = () => {
     setLoadingLogin(true);
 
     try {
-      const response = await tuTurnoApi.post("/auth", { email, password });
+      const response = await tuTurnoApi.post("/admin/auth/login", { email, password });
   
       const data = response.data;
   
@@ -23,15 +39,14 @@ export const useAuth = () => {
        // Guardar token en localStorage o en el contexto
        localStorage.setItem("token", data.token);
        localStorage.setItem("user", JSON.stringify(data.user));
+       login(data.user);
        setUser(data.user);
-       setAuthStatus('authenticated');
-       setOnAutenticateAction(false);
+       setErrorLogin("");
 
     } catch (error) {
-      setError(error.response.data?.message || "Credenciales incorrectas");
+      setErrorLogin(error.response.data?.message || "Credenciales incorrectas");
       console.log(error);
       setTimeout(() => {
-      setError("");
       }, 3000);
     } finally {
       setLoadingLogin(false);
@@ -39,9 +54,51 @@ export const useAuth = () => {
 
   }
 
+  const startLogout = async() => {
+    logout();
+  }
+
+  const checkAuthToken = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) { startLogout() }
+    try {
+      const { data } = await tuTurnoApi.get("admin/auth/renew");
+      console.log(data);
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      setUser(data.user);
+    } catch (error) {
+      console.log(error);
+      localStorage.clear();
+      startLogout();
+    }
+  };
+
+  const startRegister = async ({ name, email, phone, password }) => {
+    setLoadingRegister(true);
+
+    try {
+      const response = await tuTurnoApi.post("/admin/auth/new", { name, email, phone, password });
+
+      const data = response.data;
+
+      if (!data.ok) {
+        throw new Error(error.response.data?.message || "Error en el Registro de usuario");
+      }
+
+    } catch (error) {
+      setErrorRegister(error.response.data?.message || "Error en el Registro de usuario");
+    } finally {
+      setLoadingRegister(false);
+    }
+  }
+
 
     return {
-      startLogin
+      startLogin,
+      startLogout,
+      checkAuthToken,
+      startRegister
     }
 
 

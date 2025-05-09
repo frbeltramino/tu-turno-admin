@@ -3,19 +3,25 @@ import { Grid, Typography, TextField, OutlinedInput, InputAdornment, IconButton,
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { Google } from '@mui/icons-material'
 import { Link as RouterLink, Link } from 'react-router-dom'
-import { AuthLayout } from '../layout/AuthLayout';
+
+
 import { useForm } from '../../hooks/useForm';
+import { AdminTurnoLayout } from '../layout/AdminTurnoLayout';
+import { useAuth } from '../../hooks';
 
 const registerFormFields = {
   registerName: '',
   registerEmail: '',
-  loginPassword: ''
-}
+  registerPassword: '',
+  registerPhone: ''
+};
 
 export const RegisterPage = () => {
 
 
-  const { registerName, registerEmail, registerPassword, onInputChange } = useForm(registerFormFields);
+  const { registerName, registerEmail, registerPassword, onInputChange, registerPhone } = useForm(registerFormFields);
+
+  const { startRegister } = useAuth();
 
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -31,13 +37,22 @@ export const RegisterPage = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log({registerEmail, registerName, registerPassword})
+    console.log({ registerEmail, registerName, registerPassword, registerPhone });
+    let objAdmin = {
+      name: registerName,
+      email: registerEmail,
+      phone: registerPhone,
+      password: registerPassword
+    }
+    startRegister(objAdmin);
   }
 
-
-
   return (
-    <AuthLayout title="Crear cuenta">
+  
+      <AdminTurnoLayout> 
+
+      
+      <Typography variant="h4">Crear cuenta</Typography>
 
         <form>
           <Grid container size={{ xs: 12 }}>
@@ -62,6 +77,18 @@ export const RegisterPage = () => {
                 fullWidth
                 name="registerEmail"
                 value={registerEmail}
+                onChange={onInputChange}
+              />
+            </Grid>
+
+            <Grid item size={12} sx={{ mt: 2 }}>
+              <TextField
+                label="Teléfono"
+                type="tel"
+                placeholder="Ej: 1123456789"
+                fullWidth
+                name="registerPhone"
+                value={registerPhone}
                 onChange={onInputChange}
               />
             </Grid>
@@ -119,19 +146,10 @@ export const RegisterPage = () => {
 
               </Grid>
             </Grid>
-
-            <Grid item size={{ xs: 12 }} sx={{ mt: 2 }} >
-              <Grid container direction="row" justifyContent="end">
-                <Typography sx={{ mr: 1}}> ¿Ya tienes una cuenta? </Typography>
-                <Link component={RouterLink} color="inherit" to="/auth/login">
-                  Ingresar
-                </Link>
-              </Grid>
-            </Grid>
           </Grid>
         </form>
-
-      </AuthLayout>
+      </AdminTurnoLayout>       
+  
     
   )
 }

@@ -1,10 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Grid, Typography, TextField, OutlinedInput, InputAdornment, IconButton, Button, FormControl, InputLabel } from '@mui/material'
+import { Grid, Typography, TextField, OutlinedInput, InputAdornment, IconButton, Button, FormControl, InputLabel, CircularProgress } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { Google } from '@mui/icons-material'
 import { Link as RouterLink, Link } from 'react-router-dom'
 import { AuthLayout } from '../layout/AuthLayout';
 import { useAuth, useForm } from '../../hooks';
+import Swal from 'sweetalert2';
+import { AuthContext } from '../../context/AuthContext';
 
 
 export const LoginPage = () => {
@@ -19,6 +21,8 @@ export const LoginPage = () => {
   const { loginEmail, loginPassword, onInputChange } = useForm(loginFormFields);
 
   const { startLogin } = useAuth();
+
+  const { errorLogin, loadingLogin } = useContext(AuthContext);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -38,7 +42,11 @@ export const LoginPage = () => {
     startLogin({email: loginEmail, password: loginPassword});
   }
 
-
+  useEffect(() => {
+    if (errorLogin) {
+        Swal.fire('Error en la autenticación', errorLogin, 'error');
+    }
+  }, [errorLogin]);
 
   return (
     <AuthLayout title="Login">
@@ -100,23 +108,22 @@ export const LoginPage = () => {
                   <Button
                     variant="contained"
                     fullWidth
-                    sx={{ height: '40px' }} // misma altura para los dos
+                    sx={{ height: '40px', position: 'relative' }}
                     onClick={onSubmit}
+                    disabled={loadingLogin} // opcional: desactiva el botón mientras carga
                   >
                     Login
+                    {loadingLogin && (
+                      <CircularProgress
+                        size={20}
+                        color="inherit"
+                        sx={{ position: 'absolute', right: 16 }}
+                      />
+                    )}
                   </Button>
+                 
                 </Grid>
 
-               
-
-              </Grid>
-            </Grid>
-
-            <Grid item size={{ xs: 12 }} sx={{ mt: 2 }} >
-              <Grid container direction="row" justifyContent="end">
-                <Link component={RouterLink} color="inherit" to="/auth/register">
-                  Crear una cuenta
-                </Link>
               </Grid>
             </Grid>
           </Grid>
