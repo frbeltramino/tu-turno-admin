@@ -56,7 +56,14 @@ export const DateSelector = () => {
   };
 
   return (
-    <Grid container direction="column" alignItems="center" spacing={2} width="100%" textAlign="center">
+    <Grid
+      container
+      direction="column"
+      alignItems="center"
+      spacing={2}
+      textAlign="center"
+      sx={{ width: '100%', maxWidth: 600 }} // <-- ajusta el valor según tu layout
+    >
       <Box
         display="flex"
         justifyContent="center"
@@ -67,18 +74,17 @@ export const DateSelector = () => {
         width="100%"
       >
 
-        <Box
-          sx={{
-            width: '100%',
-            display: 'flex',
-            justifyContent: currentDates.length < datesPerPage ? 'center' : 'flex-start',
-            alignItems: 'center',
-            gap: 2,
-            py: 1,
-            overflowX: 'hidden',
-            flexWrap: 'nowrap',
-          }}
-        >
+      <Box
+        sx={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center', // <-- aseguramos el centrado
+          alignItems: 'center',
+          gap: 2,
+          py: 1,
+          flexWrap: 'nowrap',
+        }}
+      >
           <IconButton
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
             disabled={currentPage === 0}

@@ -129,11 +129,22 @@ export const AdminTurnoPage = () => {
             </Grid>
           </Grid>
         )}
+          <Box
+            sx={{
+                  // ocupa toda la altura visible
+                display: 'flex',
+                flexDirection: 'column',   // apila los hijos verticalmente
+                justifyContent: 'center',  // centra verticalmente
+                alignItems: 'center'     // centra horizontalmente
+                          
+              }}
+          >
+          <DateSelector />
+          <AppointmentsList appointments={appointments} handleConfirm={handleConfirm} handleCancel={handleCancel} loadingAppointments={appointmentLoading} />
+        </Box>
       </Box>
-      <DateSelector />
-      <AppointmentsList appointments={appointments} handleConfirm={handleConfirm} handleCancel={handleCancel} loadingAppointments={appointmentLoading} />
+      
     
-
       <Modal
         open={openModal}
         onClose={handleClose}

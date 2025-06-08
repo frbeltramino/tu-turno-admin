@@ -24,7 +24,7 @@ export const AppointmentsList = ({ appointments, handleConfirm, handleCancel, lo
      
       : 
       (
-        <Grid container direction="column" alignItems="center" spacing={2} mt={2}>
+        <Grid container direction="column" alignItems="center" spacing={2} mt={2}  width="100%">
           {appointments.map((appointment, index) => (
             <Grid item key={index} sx={{ width: '100%', maxWidth: 600 }}>
               <Card 

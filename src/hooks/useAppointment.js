@@ -123,7 +123,7 @@ export const useAppointment = () => {
 
   const completeAppointment = async (appointment) => {
     try {
-      const response = await tuTurnoApi.put(`/appointments/cancel/${appointment._id}`, {
+      const response = await tuTurnoApi.put(`/appointments/complete/${appointment._id}`, {
         is_completed: true
       });
       const data = response.data;
