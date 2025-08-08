@@ -109,10 +109,9 @@ export const useAppointment = () => {
 
   const cancelAppointment = async (appointment) => {
     try {
-      const response = await tuTurnoApi.put(`/appointments/cancel/${appointment._id}`, {
-        is_cancelled: true
-      });
+      const response = await tuTurnoApi.put(`/appointments/cancel/${appointment._id}`);
       const data = response.data;
+      callSwallSuccess('Turno cancelado', 'El turno ha sido cancelado correctamente.');
       // Actualizar lista local tras cancelación
       getAppointmentsByDate(appointment.date);
       
@@ -121,12 +120,14 @@ export const useAppointment = () => {
     }
   };
 
-  const completeAppointment = async (appointment) => {
+  const completeAppointment = async (appointment, amount) => {
     try {
       const response = await tuTurnoApi.put(`/appointments/complete/${appointment._id}`, {
-        is_completed: true
+        deposit_amount: amount 
       });
       const data = response.data;
+      callSwallSuccess('Turno completado', 'El turno ha sido completado correctamente.');
+
       // Actualizar lista local tras cancelación
       getAppointmentsByDate(appointment.date);
       
@@ -135,13 +136,40 @@ export const useAppointment = () => {
     }
   };
 
+  const acceptAppointment = async (appointment, amount) => {
+    try {
+      const response = await tuTurnoApi.put(
+        `/appointments/accept/${appointment._id}`,
+        { deposit_amount: amount }
+      );
+
+      const data = response.data;
+      callSwallSuccess('Turno aceptado', 'El turno ha sido aceptado correctamente.');
+
+      await getAppointmentsByDate(appointment.date);
+
+    } catch (error) {
+      Swal.fire('Error al aceptar el turno', error.response?.data?.message || 'Ocurrió un error', 'error');
+    }
+  };
+
+  const callSwallSuccess = (title, text) => {
+    Swal.fire({
+      title,
+      text,
+      icon: 'success',
+      confirmButtonText: 'OK'
+    });
+  };
+
   return {
     getAppointmentsFromToday,
     getAppointmentsHistory,
     getDates,
     getAppointmentsByDate,
     cancelAppointment,
-    completeAppointment
+    completeAppointment,
+    acceptAppointment
   }
 
 }

@@ -45,9 +45,9 @@ export const NavBar = () => {
           onClose={handleMenuClose}
         >
           <MenuItem onClick={() => handleNavigation('/adminTurno')}>Turnos</MenuItem>
-          <MenuItem onClick={() => {}}>Profesionales</MenuItem>
-          <MenuItem onClick={() => {}}>Servicios</MenuItem>
-          <MenuItem onClick={() => {}}>Feriados</MenuItem>
+          <MenuItem onClick={() => handleNavigation('/professionals')}>Profesionales</MenuItem>
+          <MenuItem onClick={() => handleNavigation('/services')}>Servicios</MenuItem>
+          <MenuItem onClick={() => handleNavigation('/holidays')}>Feriados</MenuItem>
           <MenuItem onClick={() => handleNavigation('/adminHistoricoTurnos')}>Histórico de Turnos</MenuItem>
           <MenuItem onClick={() => handleNavigation('/register')}>Crear cuenta</MenuItem>
         </Menu>

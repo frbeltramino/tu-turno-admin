@@ -17,3 +17,11 @@ export function capitalize(str) {
 export function splitDate(dateString, separator, part) {
   return dateString.split(separator,2)[part];
 }
+
+export const formatAmount = (amount) => {
+  return new Intl.NumberFormat('es-AR', {
+    style: 'currency',
+    currency: 'ARS',
+    minimumFractionDigits: 2
+  }).format(amount);
+};

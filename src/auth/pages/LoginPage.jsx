@@ -106,6 +106,7 @@ export const LoginPage = () => {
                   size={{ xs: 12}}
                 >
                   <Button
+                    type="submit"
                     variant="contained"
                     fullWidth
                     sx={{ height: '40px', position: 'relative' }}
