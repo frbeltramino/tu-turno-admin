@@ -1,7 +1,9 @@
 import { CheckCircle, Delete, Info as InfoIcon } from '@mui/icons-material'
 import { Box, Card, CardContent, Grid, IconButton, Tooltip, Typography, CircularProgress, Modal, Button } from '@mui/material'
-import { formatAmount, formatDate } from '../utils';
+import { formatAmount, formatDate, getI18nDay } from '../utils';
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next';
+import { t } from 'i18next';
 
 const getAppointmentStatus = (appointment) => {
   if (!appointment.is_confirmed) return 'Pendiente';
@@ -14,16 +16,16 @@ const getAppointmentStatus = (appointment) => {
 const DepositInfo = ({ deposit, paid, price }) => (
   <Box display="flex" flexDirection="column" gap={0.5}>
     <Typography variant="caption" color="text.secondary">
-      Total a pagar: {formatAmount(price)}
+      {t("i18n.appointments.021")}: {formatAmount(price)}
     </Typography>
     <Typography variant="caption" color="text.secondary">
-      Requiere depósito: {formatAmount(deposit)}
+      {t("i18n.appointments.022")}: {formatAmount(deposit)}
     </Typography>
     <Typography variant="caption" color="text.secondary">
-      Depositado: {formatAmount(paid)}
+      {t("i18n.appointments.023")}: {formatAmount(paid)}
     </Typography>
     <Typography variant="caption" color="text.secondary">
-      Falta pagar: {formatAmount(price - paid)}
+      {t("i18n.appointments.024")}: {formatAmount(price - paid)}
     </Typography>
   </Box>
 );
@@ -48,6 +50,8 @@ export const AppointmentsList = ({
     setSelectedAppointment(null);
   };
 
+  const { t } = useTranslation();
+
   if (loadingAppointments) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
@@ -59,7 +63,7 @@ export const AppointmentsList = ({
   if (appointments.length === 0) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px" width="100%" textAlign="center">
-        <Typography variant="h4">No hay turnos para mostrar</Typography>
+        <Typography variant="h4">{t('i18n.appointments.018')}</Typography>
       </Box>
     );
   }
@@ -83,15 +87,15 @@ export const AppointmentsList = ({
                 <Box>
                   <Typography variant="h6">{appointment.service_name}</Typography>
                   <Typography variant="body2" color="textSecondary">
-                    Día: {appointment.day + " " + formatDate(appointment.date)} - Hora: {appointment.start_hour}
+                    { t("i18n.appointments.019") }: {getI18nDay(appointment.date)  + " " + formatDate(appointment.date)} - { t("i18n.appointments.020") }: {appointment.start_hour}
                   </Typography>
 
                   <Box mt={1}>
-                    <Typography variant="body1">Profesional: {appointment.professional_name}</Typography>
-                    <Typography variant="body1">Cliente: {appointment.client_name}</Typography>
-                    <Typography variant="body2">Tel: {appointment.client_phone}</Typography>
-                    <Typography variant="body2">Email: {appointment.client_email}</Typography>
-                    <Typography variant="body2">Precio: {formatAmount(appointment.price)}</Typography>
+                    <Typography variant="body1">{ t("i18n.appointments.013") }: {appointment.professional_name}</Typography>
+                    <Typography variant="body1">{ t("i18n.appointments.014") }: {appointment.client_name}</Typography>
+                    <Typography variant="body2">{ t("i18n.appointments.015") }: {appointment.client_phone}</Typography>
+                    <Typography variant="body2">{ t("i18n.appointments.016") }: {appointment.client_email}</Typography>
+                    <Typography variant="body2">{ t("i18n.appointments.017") }: {formatAmount(appointment.price)}</Typography>
 
                     <Typography
                       variant="caption"
@@ -104,7 +108,7 @@ export const AppointmentsList = ({
                         'text.secondary'
                       }
                     >
-                      Estado: {getAppointmentStatus(appointment)}
+                      {t("i18n.appointments.005")}: {getAppointmentStatus(appointment)}
                     </Typography>
 
                     {getAppointmentStatus(appointment) === 'Pendiente' || getAppointmentStatus(appointment) === 'Aceptado' && (
@@ -120,20 +124,20 @@ export const AppointmentsList = ({
                 <Box display="flex" flexDirection="column" alignItems="center" gap={1}>
                   {
                     !appointment.is_confirmed &&
-                    <Tooltip title="Confirmar turno">
+                    <Tooltip title={ t("i18n.common.002") }>
                     <IconButton color="primary" onClick={() => handleConfirm(appointment)}>
                       <CheckCircle />
                     </IconButton>
                   </Tooltip>
                   }
                 { appointment.is_confirmed &&
-                  <Tooltip title="Completar turno">
+                  <Tooltip title={ t("i18n.common.003") }>
                     <IconButton color="success" onClick={() => handleComplete(appointment)}>
                       <CheckCircle />
                     </IconButton>
                   </Tooltip>
                 }
-                  <Tooltip title="Cancelar turno">
+                  <Tooltip title={ t("i18n.common.004") }>
                     <IconButton color="error" onClick={() => handleCancel(appointment)}>
                       <Delete />
                     </IconButton>
@@ -156,7 +160,7 @@ export const AppointmentsList = ({
     >
       <Box className="modalStyle">
         <Typography id="deposit-modal-title" variant="h6" mb={2}>
-          Información de Depósito
+          { t("i18n.appointments.025") }
         </Typography>
         
         {selectedAppointment && (
@@ -169,7 +173,7 @@ export const AppointmentsList = ({
 
         <Box mt={3} textAlign="right">
           <Button onClick={handleCloseDepositModal} variant="contained">
-            Cerrar
+            { t("i18n.common.001") }
           </Button>
         </Box>
       </Box>

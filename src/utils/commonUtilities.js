@@ -1,12 +1,21 @@
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
 import utc from 'dayjs/plugin/utc';
+import i18n from "i18next"; 
 
 dayjs.locale('es');
 dayjs.extend(utc);
 
 export function formatDate(dateString) {
-  return dayjs.utc(dateString).format('D [de] MMMM [de] YYYY');
+  const lang = i18n.language || 'es';
+  dayjs.locale(lang);
+
+  const formats = {
+    es: 'D [de] MMMM [de] YYYY',  // 29 de agosto de 2025
+    en: 'MMMM D, YYYY'            // August 29, 2025
+  };
+
+  return dayjs.utc(dateString).locale(lang).format(formats[lang] || formats.en);
 }
 
 
@@ -25,3 +34,21 @@ export const formatAmount = (amount) => {
     minimumFractionDigits: 2
   }).format(amount);
 };
+
+export function getI18nMonth(dateString) {
+  const lang = i18n.language;
+  return dayjs.utc(dateString).locale(lang).format("MMMM");
+}
+
+export function getI18nDay(dateString) {
+  const lang = i18n.language;
+  return dayjs.utc(dateString).locale(lang).format("dddd");
+}
+
+export function getDayByIndexDay(indexDay) {
+  const lang = i18n.language || 'es';
+
+  const baseDate = dayjs.utc("1970-01-04").add(indexDay, 'day');
+
+  return baseDate.locale(lang).format("dddd");
+}

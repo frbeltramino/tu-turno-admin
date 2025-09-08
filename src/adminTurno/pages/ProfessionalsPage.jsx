@@ -1,88 +1,100 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { AdminTurnoLayout } from '../layout/AdminTurnoLayout'
 import { ProfessionalCard } from '../../components/ProfessionalCard';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Grid, IconButton, Modal, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import { useServicesAndProfessionals } from '../../hooks/useServicesAndProfessionals';
+import { ProfessionalRegistrationForm } from '../../components/ProfessionalForm';
+import CloseIcon from '@mui/icons-material/Close';
 
 
 export const ProfessionalsPage = () => {
+  const { professionals, getProfessionals, getProfessionalsLoading } = useServicesAndProfessionals();
+  const { t } = useTranslation();
 
-  const professionals = [
-  {
-    "_id": "682907cb6bcf622099c69b21",
-    "name": "Bart Simpson",
-    "description": "Especialista en primeros auxilios para mascotas y manejo de emergencias veterinarias",
-    "image": "barney.jpg",
-    "working_days": [
-      {
-        "day": "Lunes",
-        "working_hours": {
-          "am": {
-            "start": "10:00",
-            "end": "13:00"
-          },
-          "pm": {
-            "start": "14:30",
-            "end": "18:00"
-          }
-        }
-      },
-      {
-        "day": "Martes",
-        "working_hours": {
-          "am": {
-            "start": "10:00",
-            "end": "13:00"
-          },
-          "pm": {
-            "start": "14:30",
-            "end": "18:00"
-          }
-        }
-      },
-      {
-        "day": "Jueves",
-        "working_hours": {
-          "am": {
-            "start": "10:00",
-            "end": "13:00"
-          },
-          "pm": {
-            "start": "14:30",
-            "end": "18:00"
-          }
-        }
-      }
-    ],
-    "holidays": [
-      "2025-06-01",
-      "2025-12-24"
-    ],
-    "phone": "2213057195",
-    "email": "frbeltra2@gmail.com",
-    "bank_account_cbu": "2212222",
-    "bank_account_alias": "alias.1",
-    "bank_account_titular": "Jhon Doe",
-    "__v": 0
-  }
-];
+  useEffect(() => {
+    getProfessionals();
+  }, []);
 
+  const [open, setOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpen(false);
+  };
 
   return (
-       <AdminTurnoLayout>
-      <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
-        <Typography variant="h4">Profesionales</Typography>
-      </Box>
+    <>
+      <AdminTurnoLayout>
 
-      <Box display="flex" justifyContent="center">
-        <Grid container spacing={3} justifyContent="center" maxWidth="md">
-          {professionals.map((pro, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
-              <ProfessionalCard professional={pro} />
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
-    </AdminTurnoLayout>
+        {
+          getProfessionalsLoading ?
+            <Box display="flex" justifyContent="center" alignItems="center" minHeight="400px">
+              <CircularProgress />
+            </Box>
+            :
+            <>
+              <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
+                <Typography variant="h4">{t('i18n.professionals.001')}</Typography>
+                <Button onClick={handleOpenModal}>{t('i18n.auth.013')}</Button>
+              </Box>
+
+              <Box display="flex" justifyContent="center" flexDirection="column" alignItems="center">
+                <Grid container direction="column" alignItems="center" spacing={2} mt={2}>
+                  {professionals.map((pro, index) => (
+                    <Grid item xs={12} key={index} sx={{ width: '100%', maxWidth: 600 }}>
+                      <Box display="flex" justifyContent="center" alignItems="center" mb={3} >
+                        <ProfessionalCard professional={pro} />
+                      </Box>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Box>
+            </>
+        }
+
+
+      </AdminTurnoLayout>
+
+      <Modal open={open} onClose={handleCloseModal}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: { xs: "95%", sm: "80%", md: "70%", lg: "60%" },
+            maxHeight: "90vh",
+            bgcolor: "background.paper",
+            borderRadius: 3,
+            boxShadow: 24,
+            p: 4,
+            overflowY: "auto"
+          }}
+        >
+          {/* Botón de cierre arriba a la derecha */}
+          <IconButton
+            aria-label="close"
+            onClick={handleCloseModal}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+
+          {/* Contenido del modal */}
+          <ProfessionalRegistrationForm onClose={handleCloseModal} />
+        </Box>
+      </Modal>
+
+    </>
   );
 };
 
