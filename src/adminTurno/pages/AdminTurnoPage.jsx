@@ -7,8 +7,9 @@ import { AppointmentsContext } from '../../context/AppointmentsContext'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AppointmentsList, DateSelector } from '../../components';
 import dayjs from 'dayjs'
-import { formatDate } from '../../utils'
+import { formatDate, getI18nDay } from '../../utils'
 import '../../styles.css'
+import { useTranslation } from 'react-i18next';
 
 
 export const AdminTurnoPage = () => {
@@ -27,6 +28,7 @@ export const AdminTurnoPage = () => {
   const [isComplete, setIsComplete] = useState(false);
   const [modalMode, setModalMode] = useState('confirm');
   const [amount, setAmount] = useState('');
+  const { t } = useTranslation();
 
   useEffect(() => {
     getDates();
@@ -99,8 +101,8 @@ export const AdminTurnoPage = () => {
     <AdminTurnoLayout>
       <Box mb={3}>
         <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-          <Typography variant="h4">Gestión de Turnos</Typography>
-          <Tooltip title={showFilters ? "Ocultar filtros" : "Mostrar filtros"}>
+          <Typography variant="h4">{t('i18n.titles.002')}</Typography>
+          <Tooltip title={showFilters ? t('i18n.appointments.002') : t('i18n.appointments.001')}>
             <IconButton onClick={() => setShowFilters(prev => !prev)}>
               <Search />
             </IconButton>
@@ -111,7 +113,7 @@ export const AdminTurnoPage = () => {
           <Grid container spacing={2} mb={3}>
             <Grid item xs={12} sm={6} md={4}>
               <TextField
-                label="Buscar cliente o profesional"
+                label={ t('i18n.appointments.003') }
                 variant="outlined"
                 fullWidth
                 size="small"
@@ -129,16 +131,16 @@ export const AdminTurnoPage = () => {
 
             <Grid item xs={12} sm={6} md={4}>
               <FormControl fullWidth size="small">
-                <InputLabel>Estado</InputLabel>
+                <InputLabel>{ t('i18n.appointments.005') }</InputLabel>
                 <Select
                   value={statusFilter}
-                  label="Estado"
+                  label={ t('i18n.appointments.005') }
                   onChange={(e) => setStatusFilter(e.target.value)}
                 >
-                  <MenuItem value="all">Todos</MenuItem>
-                  <MenuItem value="pending">Pendiente</MenuItem>
-                  <MenuItem value="confirmed">Confirmado</MenuItem>
-                  <MenuItem value="cancelled">Cancelado</MenuItem>
+                  <MenuItem value="all">{t('i18n.appointments.006')}</MenuItem>
+                  <MenuItem value="pending">{t('i18n.appointments.007')}</MenuItem>
+                  <MenuItem value="confirmed">{t('i18n.appointments.008')}</MenuItem>
+                  <MenuItem value="cancelled">{t('i18n.appointments.009')}</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -171,52 +173,52 @@ export const AdminTurnoPage = () => {
             {modalMode === 'confirm' && (
               <>
                 <CheckCircle color="primary" />
-                <Typography variant="h6">Confirmación de turno</Typography>
+                <Typography variant="h6">{t('i18n.appointments.010')}</Typography>
               </>
             )}
             {modalMode === 'complete' && (
               <>
                 <CheckCircle color="success" />
-                <Typography variant="h6">Completar turno</Typography>
+                <Typography variant="h6">{t('i18n.appointments.011')}</Typography>
               </>
             )}
             {modalMode === 'cancel' && (
               <>
                 <Delete color="error" />
-                <Typography variant="h6">Cancelación de turno</Typography>
+                <Typography variant="h6">{t('i18n.appointments.012')}</Typography>
               </>
             )}
           </Box>
 
           <Typography variant="h6" sx={{ mt: 2 }}>{selectedAppointment.service_name}</Typography>
-          <Typography variant="body1" sx={{ mt: 2 }}>Profesional: {selectedAppointment.professional_name}</Typography>
+          <Typography variant="body1" sx={{ mt: 2 }}>{t('i18n.appointments.013')}: {selectedAppointment.professional_name}</Typography>
           <Typography>
-            Día: {selectedAppointment.day + " " + formatDate(selectedAppointment.date)}<br />
-            Hora: {selectedAppointment.start_hour}
+            { t("i18n.appointments.019") }: {getI18nDay(selectedAppointment.date) + " " + formatDate(selectedAppointment.date)}<br />
+            { t("i18n.appointments.020") }: {selectedAppointment.start_hour}
           </Typography>
 
           <Box mt={1}>
-            <Typography variant="body1">Cliente: {selectedAppointment.client_name}</Typography>
-            <Typography variant="body2">Tel: {selectedAppointment.client_phone}</Typography>
-            <Typography variant="body2">Email: {selectedAppointment.client_email}</Typography>
+            <Typography variant="body1">{t('i18n.appointments.014')}: {selectedAppointment.client_name}</Typography>
+            <Typography variant="body2">{t('i18n.appointments.015')}: {selectedAppointment.client_phone}</Typography>
+            <Typography variant="body2">{t('i18n.appointments.016')}: {selectedAppointment.client_email}</Typography>
           </Box>
 
           {modalMode === 'confirm' && selectedAppointment.requires_deposit && (
             <Typography variant="body2" color="textSecondary" mt={2}>
-              Seña esperada: ${selectedAppointment.deposit_amount}
+              {t("i18n.appointments.037")}: ${selectedAppointment.deposit_amount}
             </Typography>
           )}
 
           {(modalMode === 'confirm' || modalMode === 'complete') && (
            <Box mt={2} maxWidth="200px">
             <FormControl fullWidth size="small">
-              <InputLabel htmlFor="amount">Monto</InputLabel>
+              <InputLabel htmlFor="amount">{t('i18n.appointments.017')}</InputLabel>
               <OutlinedInput
                 id="amount"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 startAdornment={<InputAdornment position="start">$</InputAdornment>}
-                label="Monto"
+                label={t('i18n.appointments.017')}
                 type="number"
               />
             </FormControl>
@@ -229,7 +231,7 @@ export const AdminTurnoPage = () => {
               onClick={handleClose}
               sx={{ backgroundColor: 'grey.500', '&:hover': { backgroundColor: 'grey.700' } }}
             >
-              Cerrar
+              {t('i18n.common.001')}
             </Button>
 
             {modalMode === 'confirm' && (
@@ -238,7 +240,7 @@ export const AdminTurnoPage = () => {
                 onClick={() => handleCallAcceptAppointment(selectedAppointment, amount)}
                 sx={{ backgroundColor: 'primary.main', '&:hover': { backgroundColor: 'primary.dark' } }}
               >
-                Confirmar turno
+                {t('i18n.common.002')}
               </Button>
             )}
 
@@ -248,7 +250,7 @@ export const AdminTurnoPage = () => {
                 onClick={() => handleCallCompleteAppointment(selectedAppointment, amount)}
                 sx={{ backgroundColor: 'success.main', '&:hover': { backgroundColor: 'success.dark' } }}
               >
-                Completar turno
+                {t('i18n.common.003')}
               </Button>
             )}
 
@@ -258,7 +260,7 @@ export const AdminTurnoPage = () => {
                 onClick={() => handleCallCancelAppointment(selectedAppointment)}
                 sx={{ backgroundColor: 'error.main', '&:hover': { backgroundColor: 'error.dark' } }}
               >
-                Cancelar turno
+                {t('i18n.common.004')}
               </Button>
             )}
           </Box>

@@ -7,6 +7,7 @@ import { AppointmentsContext } from '../../context/AppointmentsContext'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AppointmentsList } from '../../components';
 import dayjs from 'dayjs'
+import { useTranslation } from 'react-i18next';
 
 export const AdminHistoricoTurnosPage = () => {
 
@@ -18,6 +19,7 @@ export const AdminHistoricoTurnosPage = () => {
   const [statusFilter, setStatusFilter] = useState('all');
   const [showFilters, setShowFilters] = useState(false);
   const [searchAppointmentLoading, setSearchAppointmentLoading] = useState(historyAppointementLoading);
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     getAppointmentsHistory();
@@ -55,8 +57,8 @@ export const AdminHistoricoTurnosPage = () => {
     <AdminTurnoLayout>
       <Box mb={3}>
         <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-          <Typography variant="h4">Histórico de Turnos</Typography>
-          <Tooltip title={showFilters ? "Ocultar filtros" : "Mostrar filtros"}>
+          <Typography variant="h4">{t('i18n.titles.001')}</Typography>
+          <Tooltip title={showFilters ? t('i18n.appointments.002') : t('i18n.appointments.001')}>
             <IconButton onClick={() => setShowFilters(prev => !prev)}>
               <Search />
             </IconButton>
@@ -67,7 +69,7 @@ export const AdminHistoricoTurnosPage = () => {
           <Grid container spacing={2} mb={3}>
             <Grid item xs={12} sm={6} md={4}>
               <TextField
-                label="Buscar cliente o profesional"
+                label={ t('i18n.appointments.003') }
                 variant="outlined"
                 fullWidth
                 size="small"
@@ -85,26 +87,26 @@ export const AdminHistoricoTurnosPage = () => {
 
             <Grid item xs={12} sm={6} md={4}>
               <DatePicker
-                label="Filtrar por fecha"
+                label={ t('i18n.appointments.004') }
                 value={selectedDate}
                 onChange={(newDate) => setSelectedDate(newDate)}
                 slotProps={{ textField: { size: 'small', fullWidth: true } }}
-                format="DD-MM-YYYY"
+                format={i18n.language === "es" ? "DD/MM/YYYY" : "MM/DD/YYYY"} 
               />
             </Grid>
 
             <Grid item xs={12} sm={6} md={4}>
               <FormControl fullWidth size="small">
-                <InputLabel>Estado</InputLabel>
+                <InputLabel>{t("i18n.appointments.005")}</InputLabel>
                 <Select
                   value={statusFilter}
-                  label="Estado"
+                  label={ t('i18n.appointments.005') }
                   onChange={(e) => setStatusFilter(e.target.value)}
                 >
-                  <MenuItem value="all">Todos</MenuItem>
-                  <MenuItem value="pending">Pendiente</MenuItem>
-                  <MenuItem value="confirmed">Confirmado</MenuItem>
-                  <MenuItem value="cancelled">Cancelado</MenuItem>
+                  <MenuItem value="all">{t('i18n.appointments.006')}</MenuItem>
+                  <MenuItem value="pending">{t('i18n.appointments.007')}</MenuItem>
+                  <MenuItem value="confirmed">{t('i18n.appointments.008')}</MenuItem>
+                  <MenuItem value="cancelled">{t('i18n.appointments.009')}</MenuItem>
                 </Select>
               </FormControl>
             </Grid>

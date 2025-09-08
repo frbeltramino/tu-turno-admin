@@ -1,13 +1,22 @@
 import React from 'react';
-import { Grid, Typography, TextField, OutlinedInput, InputAdornment, IconButton, Button, FormControl, InputLabel } from '@mui/material'
-import { Visibility, VisibilityOff } from '@mui/icons-material'
-import { Google } from '@mui/icons-material'
-import { Link as RouterLink, Link } from 'react-router-dom'
-
-
+import {
+  Grid,
+  Typography,
+  TextField,
+  OutlinedInput,
+  InputAdornment,
+  IconButton,
+  Button,
+  FormControl,
+  InputLabel,
+  Paper,
+  Box
+} from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useForm } from '../../hooks/useForm';
 import { AdminTurnoLayout } from '../layout/AdminTurnoLayout';
 import { useAuth } from '../../hooks';
+import { useTranslation } from 'react-i18next';
 
 const registerFormFields = {
   registerName: '',
@@ -17,139 +26,120 @@ const registerFormFields = {
 };
 
 export const RegisterPage = () => {
-
-
-  const { registerName, registerEmail, registerPassword, onInputChange, registerPhone } = useForm(registerFormFields);
+  const { registerName, registerEmail, registerPassword, onInputChange, registerPhone } =
+    useForm(registerFormFields);
 
   const { startRegister } = useAuth();
-
   const [showPassword, setShowPassword] = React.useState(false);
+  const { t } = useTranslation();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-
-  const handleMouseUpPassword = (event) => {
-    event.preventDefault();
-  };
+  const handleMouseDownPassword = (event) => event.preventDefault();
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log({ registerEmail, registerName, registerPassword, registerPhone });
-    let objAdmin = {
+    const objAdmin = {
       name: registerName,
       email: registerEmail,
       phone: registerPhone,
       password: registerPassword
-    }
+    };
     startRegister(objAdmin);
-  }
+  };
 
   return (
-  
-      <AdminTurnoLayout> 
+    <AdminTurnoLayout>
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        sx={{ minHeight: 'calc(100vh - 100px)' }}
+      >
+        <Grid item xs={12} sm={8} md={6} lg={4}>
+          <Paper elevation={4} sx={{ p: 4, borderRadius: 3 }}>
+            <Typography
+              variant="h4"
+              align="center"
+              gutterBottom
+              sx={{ fontWeight: 'bold', mb: 3 }}
+            >
+              {t('i18n.auth.005')}
+            </Typography>
 
-      
-      <Typography variant="h4">Crear cuenta</Typography>
-
-        <form>
-          <Grid container size={{ xs: 12 }}>
-
-          <Grid size={{ xs: 12 }}>
+            <Box component="form" onSubmit={onSubmit}>
               <TextField
-                label="Nombre completo"
-                type="text"
-                placeholder="Nombre completo"
+                label={t('i18n.auth.006')}
                 fullWidth
                 name="registerName"
                 value={registerName}
                 onChange={onInputChange}
+                sx={{ mb: 2 }}
               />
-            </Grid>
 
-            <Grid size={{ xs: 12 }} sx={{ mt: 2 }}>
               <TextField
-                label="Correo"
+                label={t('i18n.auth.007')}
                 type="email"
                 placeholder="correo@google.com"
                 fullWidth
                 name="registerEmail"
                 value={registerEmail}
                 onChange={onInputChange}
+                sx={{ mb: 2 }}
               />
-            </Grid>
 
-            <Grid item size={12} sx={{ mt: 2 }}>
               <TextField
-                label="Teléfono"
+                label={t('i18n.auth.008')}
                 type="tel"
                 placeholder="Ej: 1123456789"
                 fullWidth
                 name="registerPhone"
                 value={registerPhone}
                 onChange={onInputChange}
+                sx={{ mb: 2 }}
               />
-            </Grid>
 
-            <Grid size={{ xs: 12 }} sx={{ mt: 2 }}>
-
-            <FormControl fullWidth variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-password">Contraseña</InputLabel>
-              <OutlinedInput
-
-                id="outlined-adornment-password"
-                label="Contraseña"
-                type={showPassword ? 'text' : 'password'}
-                placeholder="Contraseña"
-                fullWidth
-                name="registerPassword"
-                value={registerPassword}
-                onChange={onInputChange}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label={
-                        showPassword ? 'hide the password' : 'display the password'
-                      }
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      onMouseUp={handleMouseUpPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
+              <FormControl fullWidth variant="outlined" sx={{ mb: 3 }}>
+                <InputLabel htmlFor="outlined-adornment-password">
+                  {t('i18n.auth.009')}
+                </InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-password"
+                  type={showPassword ? 'text' : 'password'}
+                  name="registerPassword"
+                  value={registerPassword}
+                  onChange={onInputChange}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label={
+                          showPassword
+                            ? t('i18n.auth.011')
+                            : t('i18n.auth.012')
+                        }
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  label={t('i18n.auth.009')}
+                />
               </FormControl>
 
-            </Grid>
-
-            <Grid item size={{ xs: 12 }} sx={{ mt: 2 }}>
-              <Grid container spacing={2} justifyContent="center">
-
-                <Grid
-                  item
-                  size={{ xs: 12}}
-                >
-                  <Button
-                    variant="contained"
-                    fullWidth
-                    sx={{ height: '40px' }} // misma altura para los dos
-                    onClick={onSubmit}
-                  >
-                    Crear cuenta
-                  </Button>
-                </Grid>
-
-              </Grid>
-            </Grid>
-          </Grid>
-        </form>
-      </AdminTurnoLayout>       
-  
-    
-  )
-}
+              <Button
+                type="submit"
+                variant="contained"
+                fullWidth
+                sx={{ py: 1.2, fontWeight: 'bold' }}
+              >
+                {t('i18n.auth.010')}
+              </Button>
+            </Box>
+          </Paper>
+        </Grid>
+      </Grid>
+    </AdminTurnoLayout>
+  );
+};

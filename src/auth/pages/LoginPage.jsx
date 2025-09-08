@@ -7,6 +7,7 @@ import { AuthLayout } from '../layout/AuthLayout';
 import { useAuth, useForm } from '../../hooks';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 
 export const LoginPage = () => {
@@ -44,9 +45,11 @@ export const LoginPage = () => {
 
   useEffect(() => {
     if (errorLogin) {
-        Swal.fire('Error en la autenticación', errorLogin, 'error');
+        Swal.fire(t('i18n.auth.001'), errorLogin.message, 'error');
     }
   }, [errorLogin]);
+
+  const { t } = useTranslation();
 
   return (
     <AuthLayout title="Login">
@@ -56,9 +59,9 @@ export const LoginPage = () => {
 
             <Grid size={{ xs: 12 }}>
               <TextField
-                label="Correo"
+                label={ t("i18n.auth.002") }
                 type="email"
-                placeholder="correo@google.com"
+                placeholder={ t("i18n.auth.002") }
                 fullWidth
                 name="loginEmail"
                 value={loginEmail}
@@ -73,8 +76,8 @@ export const LoginPage = () => {
 
                   id="outlined-adornment-password"
                   type={showPassword ? 'text' : 'password'}
-                  label="Contraseña"
-                  placeholder="Contraseña"
+                  label={ t('i18n.auth.003') }
+                  placeholder={ t('i18n.auth.003') }
                   fullWidth
                   name="loginPassword"
                   value={loginPassword}
@@ -113,7 +116,7 @@ export const LoginPage = () => {
                     onClick={onSubmit}
                     disabled={loadingLogin} // opcional: desactiva el botón mientras carga
                   >
-                    Login
+                    { t('i18n.auth.004') }
                     {loadingLogin && (
                       <CircularProgress
                         size={20}

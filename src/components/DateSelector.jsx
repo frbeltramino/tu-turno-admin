@@ -2,9 +2,10 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Box, Button, Card, CardActionArea, CardContent, Grid, IconButton, Typography } from '@mui/material';
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 import { AppointmentsContext } from "../context/AppointmentsContext";
-import { formatDate } from '../utils';
+import { formatDate, getI18nDay } from '../utils';
 import { useAppointment } from '../hooks/useAppointment';
 import { CardDate } from './CardDate';
+import { useTranslation } from 'react-i18next';
 
 export const DateSelector = () => {
   const {
@@ -54,6 +55,8 @@ export const DateSelector = () => {
     setSelectedDate(date);
     getAppointmentsByDate(date.date);
   };
+
+  const { t } = useTranslation();
 
   return (
     <Grid
@@ -109,7 +112,7 @@ export const DateSelector = () => {
         </Box>
 
         <Typography variant="h5" sx={{ mt: 2 }}>
-          {selectedDate ? selectedDate.day + " " + formatDate(selectedDate.date) : 'Seleccione una fecha'}
+          {selectedDate ? getI18nDay(selectedDate.date)  + " " + formatDate(selectedDate.date) : t('i18n.common.005')}
         </Typography>
 
       </Box>

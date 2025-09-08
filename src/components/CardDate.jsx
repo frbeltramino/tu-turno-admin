@@ -1,4 +1,5 @@
 import { Card, CardActionArea, CardContent, Typography } from "@mui/material"
+import { getI18nDay, getI18nMonth } from "../utils/commonUtilities";
 
 export const CardDate = ({ index, date, handleOnSelectDate, selectedDate }) => {
   return (
@@ -19,13 +20,13 @@ export const CardDate = ({ index, date, handleOnSelectDate, selectedDate }) => {
     >
       <CardContent sx={{ py: 1, px: 1 }}>
         <Typography variant="body1" align="center">
-          {date.day}
+          {getI18nDay(date.date)}
         </Typography>
         <Typography variant="caption" align="center">
           {date.dayNumber}
         </Typography>
         <Typography variant="body2" align="center">
-          {date.month}
+          {getI18nMonth(date.date)}
         </Typography>
       </CardContent>
     </CardActionArea>

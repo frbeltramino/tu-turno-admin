@@ -3,12 +3,13 @@ import { AppointmentsContext } from "../context/AppointmentsContext";
 import Swal from "sweetalert2";
 import tuTurnoApi from "../api/tuTurnoApi";
 import { turnConstants } from "../turnConstants";
+import { useTranslation } from "react-i18next";
 
 
 
 export const useAppointment = () => {
 
-
+  const { t, i18n } = useTranslation();
   const {
     appointment,
     errorAppointment,
@@ -36,7 +37,7 @@ export const useAppointment = () => {
       setHistoryAppointmentLoading(false);
     } catch (error) {
       setHistoryAppointmentLoading(false);
-      setErrorHistoryAppointment(error.response.data?.message || "Error al obtener turnos");
+      setErrorHistoryAppointment(error.response.data?.message || t('i18n.appointments.026'));
       Swal.fire('Error al obtener turnos', error.response.data?.message, 'error');
     }
   };
@@ -51,7 +52,7 @@ export const useAppointment = () => {
       setAppointmentLoading(false);
     } catch (error) {
       setAppointmentLoading(false);
-      setErrorAppointment(error.response.data?.message || "Error al obtener turnos");
+      setErrorAppointment(error.response.data?.message || t('i18n.appointments.026'));
       Swal.fire('Error al obtener turnos', error.response.data?.message, 'error');
     }
   };
@@ -78,6 +79,8 @@ export const useAppointment = () => {
       const isDisabled = true;
       const id = i + 1;
       const localDate = getLocalDateString(date);
+      const index_day = date.getDay();
+      const originalDate = date;
       dates.push({
         date: localDate,
         isActive,
@@ -85,7 +88,9 @@ export const useAppointment = () => {
         id,
         month,
         day,
-        dayNumber
+        dayNumber,
+        index_day,
+        originalDate
       });
     }
 
@@ -102,8 +107,8 @@ export const useAppointment = () => {
       setAppointmentLoading(false);
     } catch (error) {
       setAppointmentLoading(false);
-      setErrorAppointment(error.response.data?.message || "Error al obtener turnos");
-      Swal.fire('Error al obtener turnos', error.response.data?.message, 'error');
+      setErrorAppointment(error.response.data?.message || t('i18n.appointments.026'));
+      Swal.fire(t('i18n.appointments.029'), error.response.data?.message, 'error');
     }
   };
 
@@ -111,12 +116,12 @@ export const useAppointment = () => {
     try {
       const response = await tuTurnoApi.put(`/appointments/cancel/${appointment._id}`);
       const data = response.data;
-      callSwallSuccess('Turno cancelado', 'El turno ha sido cancelado correctamente.');
+      callSwallSuccess(t('i18n.appointments.027'), t('i18n.appointments.028'));
       // Actualizar lista local tras cancelación
       getAppointmentsByDate(appointment.date);
       
     } catch (error) {
-      console.error("Error al cancelar el turno:", error);
+      Swal.fire(t('i18n.appointments.030'), error.response?.data?.message || t('i18n.common.006'), 'error');
     }
   };
 
@@ -126,13 +131,13 @@ export const useAppointment = () => {
         deposit_amount: amount 
       });
       const data = response.data;
-      callSwallSuccess('Turno completado', 'El turno ha sido completado correctamente.');
+      callSwallSuccess(t("i18n.appointments.031"), t('i18n.appointments.032'));
 
       // Actualizar lista local tras cancelación
       getAppointmentsByDate(appointment.date);
       
     } catch (error) {
-      console.error("Error al completar el turno:", error);
+      Swal.fire(t('i18n.appointments.033'), error.response?.data?.message || t('i18n.common.006'), 'error');
     }
   };
 
@@ -144,12 +149,12 @@ export const useAppointment = () => {
       );
 
       const data = response.data;
-      callSwallSuccess('Turno aceptado', 'El turno ha sido aceptado correctamente.');
+      callSwallSuccess(t("i18n.appointments.034"), t('i18n.appointments.035'));
 
       await getAppointmentsByDate(appointment.date);
 
     } catch (error) {
-      Swal.fire('Error al aceptar el turno', error.response?.data?.message || 'Ocurrió un error', 'error');
+      Swal.fire(t("i18n.appointments.036"), error.response?.data?.message || t('i18n.common.006'), 'error');
     }
   };
 
