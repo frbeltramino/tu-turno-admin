@@ -148,7 +148,7 @@ export const AdminTurnoPage = () => {
         )}
           <Box
             sx={{
-                  // ocupa toda la altura visible
+                width: "100%",
                 display: 'flex',
                 flexDirection: 'column',   // apila los hijos verticalmente
                 justifyContent: 'center',  // centra verticalmente

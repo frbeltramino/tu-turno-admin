@@ -215,75 +215,94 @@ export const ProfessionalRegistrationForm = ( { onClose } ) => {
     switch (step) {
       case 0:
   return (
-    <Grid 
-      container 
-      spacing={3} 
-      sx={{ justifyContent: "left", alignItems: "flex-start" }}
-    >
-
-      <Grid item xs={12} sm={6}>
-        <TextField
-          fullWidth
-          variant="outlined"
-          label={t("i18n.professionals.013")}
-          value={formData.nombre}
-          onChange={(e) => handleInputChange("nombre", e.target.value)}
-          error={!!errors.nombre}
-          helperText={errors.nombre}
-        />
-      </Grid>
-
-      <Grid item xs={12} sm={6}>
-        <TextField
-          fullWidth
-          variant="outlined"
-          label={t("i18n.professionals.014")}
-          value={formData.apellido}
-          onChange={(e) => handleInputChange("apellido", e.target.value)}
-          error={!!errors.apellido}
-          helperText={errors.apellido}
-        />
-      </Grid>
-
-      <Grid item xs={12} sm={6}>
-        <TextField
-          fullWidth
-          variant="outlined"
-          type="email"
-          label={t("i18n.professionals.015")}
-          value={formData.email}
-          onChange={(e) => handleInputChange("email", e.target.value)}
-          error={!!errors.email}
-          helperText={errors.email}
-        />
-      </Grid>
-
-      <Grid item xs={12} sm={6}>
-        <TextField
-          fullWidth
-          variant="outlined"
-          label={t("i18n.professionals.016")}
-          value={formData.telefono}
-          onChange={(e) => handleInputChange("telefono", e.target.value)}
-          error={!!errors.telefono}
-          helperText={errors.telefono}
-        />
-      </Grid>
-
-      <Grid item xs={12}>
-        <TextField
-          fullWidth
-          variant="outlined"
-          multiline
-          label={t("i18n.professionals.057")}
-          value={formData.descripcion}
-          onChange={(e) => handleInputChange("descripcion", e.target.value)}
-          error={!!errors.descripcion}
-          helperText={errors.descripcion}
-        />
-      </Grid>
+  <Grid 
+    container 
+    spacing={3} 
+    sx={{ justifyContent: "left", alignItems: "flex-start", width: "100%" }}
+  >
+    <Grid item sm={6} sx= {{
+     width: {
+       xs: "100%"
+     } 
+    }}>
+      <TextField
+        fullWidth
+        variant="outlined"
+        label={t("i18n.professionals.013")}
+        value={formData.nombre}
+        onChange={(e) => handleInputChange("nombre", e.target.value)}
+        error={!!errors.nombre}
+        helperText={errors.nombre}
+      />
     </Grid>
-  );
+
+    <Grid item sm={6} sx= {{
+     width: {
+       xs: "100%"
+     } 
+    }}>
+      <TextField
+        fullWidth
+        variant="outlined"
+        label={t("i18n.professionals.014")}
+        value={formData.apellido}
+        onChange={(e) => handleInputChange("apellido", e.target.value)}
+        error={!!errors.apellido}
+        helperText={errors.apellido}
+      />
+    </Grid>
+
+    <Grid item sm={6} sx= {{
+     width: {
+       xs: "100%"
+     } 
+    }}>
+      <TextField
+        fullWidth
+        variant="outlined"
+        type="email"
+        label={t("i18n.professionals.015")}
+        value={formData.email}
+        onChange={(e) => handleInputChange("email", e.target.value)}
+        error={!!errors.email}
+        helperText={errors.email}
+      />
+    </Grid>
+
+    <Grid item sm={6} sx= {{
+     width: {
+       xs: "100%"
+     } 
+    }}>
+      <TextField
+        fullWidth
+        variant="outlined"
+        label={t("i18n.professionals.016")}
+        value={formData.telefono}
+        onChange={(e) => handleInputChange("telefono", e.target.value)}
+        error={!!errors.telefono}
+        helperText={errors.telefono}
+      />
+    </Grid>
+
+    <Grid item sm={6} sx= {{
+     width: {
+       xs: "100%"
+     } 
+    }}>
+      <TextField
+        fullWidth
+        variant="outlined"
+        multiline
+        label={t("i18n.professionals.057")}
+        value={formData.descripcion}
+        onChange={(e) => handleInputChange("descripcion", e.target.value)}
+        error={!!errors.descripcion}
+        helperText={errors.descripcion}
+      />
+    </Grid>
+  </Grid>
+);
 
       case 1:
         return (
@@ -509,9 +528,9 @@ export const ProfessionalRegistrationForm = ( { onClose } ) => {
   }
 
   return (
-    <Box sx={{ maxWidth: 800, mx: "auto", p: 3 }}>
+    <Box sx={{ width: "100%", maxWidth: "100%", p: 2 }}>
       <Card elevation={3}>
-        <CardContent sx={{ p: 4 }}>
+        <CardContent sx={{ p: { xs: 2, sm: 4 } }}>
           <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ mb: 4, fontWeight: "bold" }}>
             {t('i18n.professionals.018')}
           </Typography>
@@ -559,7 +578,7 @@ export const ProfessionalRegistrationForm = ( { onClose } ) => {
                     {t('i18n.common.010')}
                   </Typography>
                 }
-                <Box sx={{ minHeight: 200 }}>{renderStepContent(activeStep)}</Box>
+                <Box sx={{ width: "100%" }}>{renderStepContent(activeStep)}</Box>
                 <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
                   {activeStep < steps.length - 1 && (
                     <Button disabled={activeStep === 0} onClick={handleBack} variant="outlined">
@@ -567,7 +586,7 @@ export const ProfessionalRegistrationForm = ( { onClose } ) => {
                     </Button>
                   )}
                   {activeStep === steps.length - 2 ? (
-                    <Button onClick={handleSubmit} variant="contained" startIcon={createProfessionalLoading ? "" : <CheckCircle />}>
+                    <Button onClick={handleSubmit} variant="contained" size="small" startIcon={createProfessionalLoading ? "" : <CheckCircle />}>
                     {createProfessionalLoading ?
                        <CircularProgress size={20} color="white" />
                       : 
