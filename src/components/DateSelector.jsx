@@ -65,7 +65,7 @@ export const DateSelector = () => {
       alignItems="center"
       spacing={2}
       textAlign="center"
-      sx={{ width: '100%', maxWidth: 600 }} // <-- ajusta el valor según tu layout
+      sx={{ width: '100%', maxWidth: 600 }}
     >
       <Box
         display="flex"
@@ -81,7 +81,7 @@ export const DateSelector = () => {
         sx={{
           width: '100%',
           display: 'flex',
-          justifyContent: 'center', // <-- aseguramos el centrado
+          justifyContent: 'center',
           alignItems: 'center',
           gap: 2,
           py: 1,
