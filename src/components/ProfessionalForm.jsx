@@ -21,6 +21,8 @@ import {
   Chip,
   Stack,
   CircularProgress,
+  useMediaQuery,
+  useTheme
 } from "@mui/material"
 import { Person, Schedule, FactCheck, CheckCircle, Start, Error } from "@mui/icons-material"
 import { useTranslation } from "react-i18next";
@@ -28,9 +30,10 @@ import { SuccessScreen } from "./SuccessScreen";
 import { ConfirmationProfessionalData } from "./ConfirmationProfessionalData";
 import { useServicesAndProfessionals } from "../hooks/useServicesAndProfessionals";
 import { ErrorScreen } from "./ErrorScreen";
+import { weekdays } from "dayjs/locale/es";
 
 
-export const ProfessionalRegistrationForm = ( { onClose } ) => {
+export const ProfessionalRegistrationForm = ({ onClose }) => {
   const { t } = useTranslation();
   const { createProfessional, successCreateProfessional, createProfessionalLoading, errorCreateProfessional, createResult } = useServicesAndProfessionals();
   const steps = [
@@ -82,6 +85,9 @@ export const ProfessionalRegistrationForm = ( { onClose } ) => {
   })
 
   const [errors, setErrors] = useState({});
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
 
   const handleInputChange = (field, value) => {
     setFormData((prev) => ({
@@ -199,110 +205,110 @@ export const ProfessionalRegistrationForm = ( { onClose } ) => {
     setActiveStep((prev) => prev - 1)
   }
 
- const handleSubmit = async () => {
-  if (validateStep(activeStep)) {
-    console.log("Datos del profesional:", formData);
-    
-    await createProfessional(formData);
-    
-    setActiveStep((prev) => prev + 1);
-   
-  }
-};
+  const handleSubmit = async () => {
+    if (validateStep(activeStep)) {
+      console.log("Datos del profesional:", formData);
+
+      await createProfessional(formData);
+
+      setActiveStep((prev) => prev + 1);
+
+    }
+  };
 
   const renderStepContent = (step) => {
     let professionalData = [];
     switch (step) {
       case 0:
-  return (
-  <Grid 
-    container 
-    spacing={3} 
-    sx={{ justifyContent: "left", alignItems: "flex-start", width: "100%" }}
-  >
-    <Grid item sm={6} sx= {{
-     width: {
-       xs: "100%"
-     } 
-    }}>
-      <TextField
-        fullWidth
-        variant="outlined"
-        label={t("i18n.professionals.013")}
-        value={formData.nombre}
-        onChange={(e) => handleInputChange("nombre", e.target.value)}
-        error={!!errors.nombre}
-        helperText={errors.nombre}
-      />
-    </Grid>
+        return (
+          <Grid
+            container
+            spacing={3}
+            sx={{ justifyContent: "left", alignItems: "flex-start", width: "100%" }}
+          >
+            <Grid item sm={6} sx={{
+              width: {
+                xs: "100%"
+              }
+            }}>
+              <TextField
+                fullWidth
+                variant="outlined"
+                label={t("i18n.professionals.013")}
+                value={formData.nombre}
+                onChange={(e) => handleInputChange("nombre", e.target.value)}
+                error={!!errors.nombre}
+                helperText={errors.nombre}
+              />
+            </Grid>
 
-    <Grid item sm={6} sx= {{
-     width: {
-       xs: "100%"
-     } 
-    }}>
-      <TextField
-        fullWidth
-        variant="outlined"
-        label={t("i18n.professionals.014")}
-        value={formData.apellido}
-        onChange={(e) => handleInputChange("apellido", e.target.value)}
-        error={!!errors.apellido}
-        helperText={errors.apellido}
-      />
-    </Grid>
+            <Grid item sm={6} sx={{
+              width: {
+                xs: "100%"
+              }
+            }}>
+              <TextField
+                fullWidth
+                variant="outlined"
+                label={t("i18n.professionals.014")}
+                value={formData.apellido}
+                onChange={(e) => handleInputChange("apellido", e.target.value)}
+                error={!!errors.apellido}
+                helperText={errors.apellido}
+              />
+            </Grid>
 
-    <Grid item sm={6} sx= {{
-     width: {
-       xs: "100%"
-     } 
-    }}>
-      <TextField
-        fullWidth
-        variant="outlined"
-        type="email"
-        label={t("i18n.professionals.015")}
-        value={formData.email}
-        onChange={(e) => handleInputChange("email", e.target.value)}
-        error={!!errors.email}
-        helperText={errors.email}
-      />
-    </Grid>
+            <Grid item sm={6} sx={{
+              width: {
+                xs: "100%"
+              }
+            }}>
+              <TextField
+                fullWidth
+                variant="outlined"
+                type="email"
+                label={t("i18n.professionals.015")}
+                value={formData.email}
+                onChange={(e) => handleInputChange("email", e.target.value)}
+                error={!!errors.email}
+                helperText={errors.email}
+              />
+            </Grid>
 
-    <Grid item sm={6} sx= {{
-     width: {
-       xs: "100%"
-     } 
-    }}>
-      <TextField
-        fullWidth
-        variant="outlined"
-        label={t("i18n.professionals.016")}
-        value={formData.telefono}
-        onChange={(e) => handleInputChange("telefono", e.target.value)}
-        error={!!errors.telefono}
-        helperText={errors.telefono}
-      />
-    </Grid>
+            <Grid item sm={6} sx={{
+              width: {
+                xs: "100%"
+              }
+            }}>
+              <TextField
+                fullWidth
+                variant="outlined"
+                label={t("i18n.professionals.016")}
+                value={formData.telefono}
+                onChange={(e) => handleInputChange("telefono", e.target.value)}
+                error={!!errors.telefono}
+                helperText={errors.telefono}
+              />
+            </Grid>
 
-    <Grid item sm={6} sx= {{
-     width: {
-       xs: "100%"
-     } 
-    }}>
-      <TextField
-        fullWidth
-        variant="outlined"
-        multiline
-        label={t("i18n.professionals.057")}
-        value={formData.descripcion}
-        onChange={(e) => handleInputChange("descripcion", e.target.value)}
-        error={!!errors.descripcion}
-        helperText={errors.descripcion}
-      />
-    </Grid>
-  </Grid>
-);
+            <Grid item sm={6} sx={{
+              width: {
+                xs: "100%"
+              }
+            }}>
+              <TextField
+                fullWidth
+                variant="outlined"
+                multiline
+                label={t("i18n.professionals.057")}
+                value={formData.descripcion}
+                onChange={(e) => handleInputChange("descripcion", e.target.value)}
+                error={!!errors.descripcion}
+                helperText={errors.descripcion}
+              />
+            </Grid>
+          </Grid>
+        );
 
       case 1:
         return (
@@ -461,7 +467,7 @@ export const ProfessionalRegistrationForm = ( { onClose } ) => {
                       >
                         <Box>
                           <Typography variant="subtitle1">
-                            {daysOfWeek.find((d) => d.value === h.dia)?.label}
+                            {daysOfWeek.find(d => d.dayIndex == h.dia.dayIndex)?.label}
                           </Typography>
                           <Typography variant="body2">
                             {t("i18n.professionals.050")}: {h.manana.inicio || "--"} - {h.manana.fin || "--"}
@@ -504,25 +510,27 @@ export const ProfessionalRegistrationForm = ( { onClose } ) => {
         return <ConfirmationProfessionalData formData={formData} daysOfWeek={daysOfWeek} />
       case 3: // Success
         {
-          if( successCreateProfessional) {
+          if (successCreateProfessional) {
+
             professionalData = [
               { label: t("i18n.professionals.013"), value: formData.nombre },
               { label: t("i18n.professionals.014"), value: formData.apellido },
               { label: t("i18n.professionals.015"), value: formData.email },
               { label: t("i18n.professionals.016"), value: formData.telefono },
-              { label: t("i18n.professionals.017"), value: formData.descripcion }
-            ] 
+              { label: t("i18n.professionals.057"), value: formData.descripcion },
+              { label: t("i18n.professionals.011"), value: formData.horarios && formData.horarios.length > 0 ? formData.horarios.map(h => `${daysOfWeek.find(d => d.dayIndex == h.dia.dayIndex)?.label} - ${h.manana.inicio} - ${h.manana.fin} - ${h.tarde.inicio} - ${h.tarde.fin}`).join(", ") : "-" }
+            ]
           }
-          
+
         }
-        return(
-          successCreateProfessional ? 
-          <SuccessScreen title={t("i18n.professionals.041")} data={professionalData} onClose={onClose} />
-          :
-          <ErrorScreen title={t("i18n.common.006")} message={errorCreateProfessional} onClose={onClose}/>
-          
-        ) 
-        
+        return (
+          successCreateProfessional ?
+            <SuccessScreen title={t("i18n.professionals.041")} data={professionalData} onClose={onClose} />
+            :
+            <ErrorScreen title={t("i18n.common.006")} message={errorCreateProfessional} onClose={onClose} />
+
+        )
+
 
     }
   }
@@ -535,7 +543,15 @@ export const ProfessionalRegistrationForm = ( { onClose } ) => {
             {t('i18n.professionals.018')}
           </Typography>
 
-          <Stepper activeStep={activeStep} alternativeLabel sx={{ mb: 4 }}>
+          <Stepper
+            activeStep={activeStep}
+            alternativeLabel
+            sx={{
+              mb: 4,
+              overflowX: { xs: "auto", sm: "visible" },
+              '& .MuiStep-root': { minWidth: { xs: 80, sm: 'auto' } },
+            }}
+          >
             {steps.map((step, index) => (
               <Step key={step.label}>
                 <StepLabel
@@ -545,61 +561,73 @@ export const ProfessionalRegistrationForm = ( { onClose } ) => {
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        width: 40,
-                        height: 40,
+                        width: { xs: 30, sm: 40 },
+                        height: { xs: 30, sm: 40 },
                         borderRadius: "50%",
                         backgroundColor: completed ? "primary.main" : active ? "primary.light" : "grey.300",
                         color: completed || active ? "white" : "grey.600",
                       }}
                     >
-                      {completed ? <CheckCircle /> : step.icon}
+                      {completed ? <CheckCircle fontSize={isMobile ? "small" : "medium"} /> : step.icon}
                     </Box>
                   )}
                 >
-                  {step.label}
+                  <Typography sx={{ fontSize: { xs: "0.65rem", sm: "0.875rem" } }}>{step.label}</Typography>
                 </StepLabel>
               </Step>
             ))}
           </Stepper>
 
           <Box sx={{ maxWidth: 800, mx: "auto", p: 0 }}>
-                {activeStep === 0 && 
-                  <Typography variant="h4" align="center" sx={{ mb: 4, fontWeight: "bold" }}>
-                    {t('i18n.professionals.010')}
-                  </Typography>
-                }
-                {activeStep === 1 && 
-                  <Typography variant="h4" align="center" sx={{ mb: 4, fontWeight: "bold" }}>
-                    {t('i18n.professionals.011')}
-                  </Typography>
-                }
-                {activeStep === 2 && 
-                  <Typography variant="h4" align="center" sx={{ mb: 4, fontWeight: "bold" }}>
-                    {t('i18n.common.010')}
-                  </Typography>
-                }
-                <Box sx={{ width: "100%" }}>{renderStepContent(activeStep)}</Box>
-                <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
-                  {activeStep < steps.length - 1 && (
-                    <Button disabled={activeStep === 0} onClick={handleBack} variant="outlined">
-                      {t('i18n.common.007')}
-                    </Button>
+            {activeStep === 0 &&
+              <Typography variant="h4" align="center" sx={{ mb: 4, fontWeight: "bold" }}>
+                {t('i18n.professionals.010')}
+              </Typography>
+            }
+            {activeStep === 1 &&
+              <Typography variant="h4" align="center" sx={{ mb: 4, fontWeight: "bold" }}>
+                {t('i18n.professionals.011')}
+              </Typography>
+            }
+            {activeStep === 2 &&
+              <Typography variant="h4" align="center" sx={{ mb: 4, fontWeight: "bold" }}>
+                {t('i18n.common.010')}
+              </Typography>
+            }
+            <Box sx={{ width: "100%" }}>{renderStepContent(activeStep)}</Box>
+            <Box sx={{ display: "flex", justifyContent: "space-between", mt: 4 }}>
+              {activeStep < steps.length - 1 && (
+                <Button disabled={activeStep === 0} onClick={handleBack} variant="outlined">
+                  {t('i18n.common.007')}
+                </Button>
+              )}
+              {activeStep === steps.length - 2 ? (
+                <Button
+                  onClick={handleSubmit}
+                  variant="contained"
+                  size={isMobile ? "small" : "medium"}
+                  startIcon={
+                    createProfessionalLoading
+                      ? ""
+                      : <CheckCircle fontSize={isMobile ? "small" : "medium"} />
+                  }
+                  sx={{
+                    fontSize: isMobile ? "0.75rem" : "0.875rem",
+                    padding: isMobile ? "4px 12px" : "6px 16px",
+                  }}
+                >
+                  {createProfessionalLoading ? (
+                    <CircularProgress size={isMobile ? 16 : 20} color="white" />
+                  ) : (
+                    t("i18n.common.009")
                   )}
-                  {activeStep === steps.length - 2 ? (
-                    <Button onClick={handleSubmit} variant="contained" size="small" startIcon={createProfessionalLoading ? "" : <CheckCircle />}>
-                    {createProfessionalLoading ?
-                       <CircularProgress size={20} color="white" />
-                      : 
-                      t('i18n.common.009')
-                    }
-                   
-                    </Button>
-                  ) : activeStep < steps.length - 2 ? (
-                    <Button onClick={handleNext} variant="contained">
-                      {t('i18n.common.008')}
-                    </Button>
-                  ) : null}
-                </Box>
+                </Button>
+              ) : activeStep < steps.length - 2 ? (
+                <Button onClick={handleNext} variant="contained">
+                  {t('i18n.common.008')}
+                </Button>
+              ) : null}
+            </Box>
           </Box>
         </CardContent>
       </Card>

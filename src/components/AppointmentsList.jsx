@@ -6,11 +6,10 @@ import { useTranslation } from 'react-i18next';
 import { t } from 'i18next';
 
 const getAppointmentStatus = (appointment) => {
-  if (!appointment.is_confirmed) return 'Pendiente';
-  if (appointment.is_cancelled) return 'Cancelado';
-  if (appointment.is_completed) return 'Completado';
-  if (appointment.is_confirmed) return 'Aceptado';
-  return 'Desconocido';
+  if (appointment.is_confirmed && !appointment.is_cancelled && !appointment.is_completed) return t('i18n.status.accepted');
+  if (appointment.is_cancelled) return t('i18n.status.canceled');
+  if (appointment.is_completed) return t('i18n.status.completed');
+  return t('i18n.status.pending');
 };
 
 const DepositInfo = ({ deposit, paid, price }) => (

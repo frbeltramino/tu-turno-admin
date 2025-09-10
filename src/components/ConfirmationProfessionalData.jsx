@@ -15,7 +15,7 @@ export const ConfirmationProfessionalData = ( { formData, daysOfWeek }) => {
       {formData.horarios.map((h, index) => (
         <Box key={index} sx={{ mb: 1, p: 1, border: "1px solid #ddd", borderRadius: 2 }}>
           <Typography variant="subtitle2">
-            {daysOfWeek.find((d) => d.value === h.dia)?.label}
+            {daysOfWeek.find(d => d.dayIndex == h.dia.dayIndex)?.label}
           </Typography>
           <Typography variant="body2">{t("i18n.professionals.050")}: {h.manana.inicio} - {h.manana.fin}</Typography>
           <Typography variant="body2">{t("i18n.professionals.053")}: {h.tarde.inicio} - {h.tarde.fin}</Typography>

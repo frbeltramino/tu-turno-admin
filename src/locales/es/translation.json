@@ -71,7 +71,7 @@
     "006": "Ocurrió un error",
     "007": "Anterior",
     "008": "Siguiente",
-    "009": "Completar Registro",
+    "009": "Confirmar",
     "010": "Confirmar Datos",
     "cancel": "Cancelar",
     "error_message": "Ocurrió un error inesperado, por favor habla con el administrador",
@@ -148,5 +148,11 @@
     "friday": "Viernes",
     "saturday": "Sábado",
     "sunday": "Domingo"
+  },
+  "i18n.status": {
+    "pending": "Pendiente",
+    "accepted": "Aceptado",
+    "canceled": "Cancelado",
+    "completed": "Completado"
   }
 }
