@@ -148,5 +148,11 @@
     "friday": "Friday",
     "saturday": "Saturday",
     "sunday": "Sunday"
+  },
+  "i18n.status": {
+    "pending": "Pending",
+    "accepted": "Accepted",
+    "canceled": "Canceled",
+    "completed": "Completed"
   }
 }

@@ -71,7 +71,7 @@ export const LoginPage = () => {
 
             <Grid size={{ xs: 12 }} sx={{ mt: 2 }}>
             <FormControl fullWidth variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-password">Contraseña</InputLabel>
+              <InputLabel htmlFor="outlined-adornment-password">{t('i18n.auth.003')}</InputLabel>
                 <OutlinedInput
 
                   id="outlined-adornment-password"

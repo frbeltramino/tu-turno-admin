@@ -30,6 +30,7 @@ import { SuccessScreen } from "./SuccessScreen";
 import { ConfirmationProfessionalData } from "./ConfirmationProfessionalData";
 import { useServicesAndProfessionals } from "../hooks/useServicesAndProfessionals";
 import { ErrorScreen } from "./ErrorScreen";
+import { weekdays } from "dayjs/locale/es";
 
 
 export const ProfessionalRegistrationForm = ({ onClose }) => {
@@ -466,7 +467,7 @@ export const ProfessionalRegistrationForm = ({ onClose }) => {
                       >
                         <Box>
                           <Typography variant="subtitle1">
-                            {daysOfWeek.find((d) => d.value === h.dia)?.label}
+                            {daysOfWeek.find(d => d.dayIndex == h.dia.dayIndex)?.label}
                           </Typography>
                           <Typography variant="body2">
                             {t("i18n.professionals.050")}: {h.manana.inicio || "--"} - {h.manana.fin || "--"}
@@ -510,12 +511,14 @@ export const ProfessionalRegistrationForm = ({ onClose }) => {
       case 3: // Success
         {
           if (successCreateProfessional) {
+
             professionalData = [
               { label: t("i18n.professionals.013"), value: formData.nombre },
               { label: t("i18n.professionals.014"), value: formData.apellido },
               { label: t("i18n.professionals.015"), value: formData.email },
               { label: t("i18n.professionals.016"), value: formData.telefono },
-              { label: t("i18n.professionals.017"), value: formData.descripcion }
+              { label: t("i18n.professionals.057"), value: formData.descripcion },
+              { label: t("i18n.professionals.011"), value: formData.horarios && formData.horarios.length > 0 ? formData.horarios.map(h => `${daysOfWeek.find(d => d.dayIndex == h.dia.dayIndex)?.label} - ${h.manana.inicio} - ${h.manana.fin} - ${h.tarde.inicio} - ${h.tarde.fin}`).join(", ") : "-" }
             ]
           }
 
@@ -592,7 +595,7 @@ export const ProfessionalRegistrationForm = ({ onClose }) => {
               </Typography>
             }
             <Box sx={{ width: "100%" }}>{renderStepContent(activeStep)}</Box>
-            <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
+            <Box sx={{ display: "flex", justifyContent: "space-between", mt: 4 }}>
               {activeStep < steps.length - 1 && (
                 <Button disabled={activeStep === 0} onClick={handleBack} variant="outlined">
                   {t('i18n.common.007')}

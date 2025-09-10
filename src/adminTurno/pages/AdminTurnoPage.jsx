@@ -7,7 +7,7 @@ import { AppointmentsContext } from '../../context/AppointmentsContext'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AppointmentsList, DateSelector } from '../../components';
 import dayjs from 'dayjs'
-import { formatDate, getI18nDay } from '../../utils'
+import { formatAmount, formatDate, getI18nDay } from '../../utils'
 import '../../styles.css'
 import { useTranslation } from 'react-i18next';
 
@@ -69,11 +69,13 @@ export const AdminTurnoPage = () => {
   const handleCallCompleteAppointment = (appointment, amount) => {
     completeAppointment(appointment, amount);
     setOpenModal(false);
+    setAmount('');
   };
 
   const handleCallAcceptAppointment = (appointment, amount) => {
     acceptAppointment(appointment, amount);
     setOpenModal(false);
+    setAmount('');
   };
 
  
@@ -206,6 +208,12 @@ export const AdminTurnoPage = () => {
           {modalMode === 'confirm' && selectedAppointment.requires_deposit && (
             <Typography variant="body2" color="textSecondary" mt={2}>
               {t("i18n.appointments.037")}: ${selectedAppointment.deposit_amount}
+            </Typography>
+          )}
+
+          {modalMode === 'complete' && (
+            <Typography variant="body2" color="textSecondary" mt={2}>
+              {t("i18n.appointments.024")}: {formatAmount(selectedAppointment.price - selectedAppointment.deposit_paid_amount)}
             </Typography>
           )}
 
