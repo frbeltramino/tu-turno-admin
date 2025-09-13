@@ -1,9 +1,10 @@
 import { LogoutOutlined, MenuOutlined } from '@mui/icons-material';
-import { AppBar, Grid, IconButton, Toolbar, Typography, Menu, MenuItem } from '@mui/material';
+import { AppBar, Grid, IconButton, Toolbar, Typography, Menu, MenuItem, Select, Box } from '@mui/material';
 import React, { useState } from 'react';
 import { useAuth } from '../../hooks';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { SelectLanguage } from '../../components/SelectLanguage';
 
 export const NavBar = () => {
   const { startLogout } = useAuth();
@@ -57,10 +58,12 @@ export const NavBar = () => {
 
         <Grid container direction="row" justifyContent="space-between" alignItems="center" sx={{ width: '100%' }}>
           <Typography>{ t('i18n.titles.007') }</Typography>
-
-          <IconButton color="error" onClick={handleLogout}>
-            <LogoutOutlined />
-          </IconButton>
+          <Box display={'flex'} alignItems={'center'}>
+            <SelectLanguage />
+            <IconButton color="error" onClick={handleLogout}>
+              <LogoutOutlined />
+            </IconButton>
+          </Box>
         </Grid>
       </Toolbar>
     </AppBar>
