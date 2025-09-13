@@ -100,18 +100,18 @@ export const AppointmentsList = ({
                       variant="caption"
                       fontWeight="bold"
                       color={
-                        getAppointmentStatus(appointment) === 'Pendiente' ? 'warning.main' :
-                        getAppointmentStatus(appointment) === 'Aceptado' ? 'primary.main' :
-                        getAppointmentStatus(appointment) === 'Completado' ? 'success.main' :
-                        getAppointmentStatus(appointment) === 'Cancelado' ? 'error.main' :
+                        getAppointmentStatus(appointment) === t('i18n.status.pending') ? 'warning.main' :
+                        getAppointmentStatus(appointment) === t('i18n.status.accepted') ? 'primary.main' :
+                        getAppointmentStatus(appointment) === t('i18n.status.completed') ? 'success.main' :
+                        getAppointmentStatus(appointment) === t('i18n.status.canceled') ? 'error.main' :
                         'text.secondary'
                       }
                     >
                       {t("i18n.appointments.005")}: {getAppointmentStatus(appointment)}
                     </Typography>
 
-                    {getAppointmentStatus(appointment) === 'Pendiente' || getAppointmentStatus(appointment) === 'Aceptado' && (
-                      <Tooltip title="Ver info de depósito">
+                    {( getAppointmentStatus(appointment) === t('i18n.status.pending') || getAppointmentStatus(appointment) === t('i18n.status.accepted') ) && (
+                      <Tooltip title={ t("i18n.common.info") }>
                       <IconButton color="warning" onClick={() => handleOpenDepositModal(appointment)}>
                           <InfoIcon />
                         </IconButton>

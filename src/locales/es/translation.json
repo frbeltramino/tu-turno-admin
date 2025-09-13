@@ -75,7 +75,8 @@
     "010": "Confirmar Datos",
     "cancel": "Cancelar",
     "error_message": "Ocurrió un error inesperado, por favor habla con el administrador",
-    "delete": "Eliminar"
+    "delete": "Eliminar",
+    "info": "Ver info de depósito"
   },
   "i18n.professionals": {
     "001": "Profesionales",

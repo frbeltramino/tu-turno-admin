@@ -75,7 +75,8 @@
     "010": "Confirm Data",
     "cancel": "Cancel",
     "error_message": "An unexpected error occurred, please contact the administrator",
-    "delete": "Delete"
+    "delete": "Delete",
+    "info": "View deposit information"
   },
   "i18n.professionals": {
     "001": "Professionals",

@@ -39,7 +39,6 @@ export const LoginPage = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log({loginEmail, loginPassword})
     startLogin({email: loginEmail, password: loginPassword});
   }
 
