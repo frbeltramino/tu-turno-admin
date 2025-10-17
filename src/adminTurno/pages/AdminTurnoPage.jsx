@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 export const AdminTurnoPage = () => {
 
   const { getAppointmentsFromToday, getDates, getAppointmentsByDate, cancelAppointment, completeAppointment, acceptAppointment
-   } = useAppointment();
+  } = useAppointment();
   const { appointments, appointmentLoading, selectedAppointment, setSelectedAppointment } = useContext(AppointmentsContext);
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -78,7 +78,7 @@ export const AdminTurnoPage = () => {
     setAmount('');
   };
 
- 
+
   const getStatusFromAppointment = (appointment) => {
     if (appointment.is_cancelled) return 'cancelled';
     if (appointment.is_completed) return 'confirmed';
@@ -89,11 +89,11 @@ export const AdminTurnoPage = () => {
     const matchesSearch = [appointment.client_name, appointment.professional_name]
       .some(field => field.toLowerCase().includes(searchTerm.toLowerCase()));
 
-    const matchesDate = () => {};
+    const matchesDate = () => { };
 
     const status = getStatusFromAppointment(appointment);
     const matchesStatus = statusFilter === 'all' || status === statusFilter;
-    
+
     return matchesSearch && matchesDate && matchesStatus;
 
   });
@@ -104,7 +104,9 @@ export const AdminTurnoPage = () => {
       <Box mb={3}>
         <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
           <Typography variant="h4">{t('i18n.titles.002')}</Typography>
-          <Tooltip title={showFilters ? t('i18n.appointments.002') : t('i18n.appointments.001')}>
+          <Tooltip
+            placement="left"
+            title={showFilters ? t('i18n.appointments.002') : t('i18n.appointments.001')}>
             <IconButton onClick={() => setShowFilters(prev => !prev)}>
               <Search />
             </IconButton>
@@ -115,7 +117,7 @@ export const AdminTurnoPage = () => {
           <Grid container spacing={2} mb={3}>
             <Grid item xs={12} sm={6} md={4}>
               <TextField
-                label={ t('i18n.appointments.003') }
+                label={t('i18n.appointments.003')}
                 variant="outlined"
                 fullWidth
                 size="small"
@@ -133,10 +135,10 @@ export const AdminTurnoPage = () => {
 
             <Grid item xs={12} sm={6} md={4}>
               <FormControl fullWidth size="small">
-                <InputLabel>{ t('i18n.appointments.005') }</InputLabel>
+                <InputLabel>{t('i18n.appointments.005')}</InputLabel>
                 <Select
                   value={statusFilter}
-                  label={ t('i18n.appointments.005') }
+                  label={t('i18n.appointments.005')}
                   onChange={(e) => setStatusFilter(e.target.value)}
                 >
                   <MenuItem value="all">{t('i18n.appointments.006')}</MenuItem>
@@ -148,23 +150,23 @@ export const AdminTurnoPage = () => {
             </Grid>
           </Grid>
         )}
-          <Box
-            sx={{
-                width: "100%",
-                display: 'flex',
-                flexDirection: 'column',   // apila los hijos verticalmente
-                justifyContent: 'center',  // centra verticalmente
-                alignItems: 'center'     // centra horizontalmente
-                          
-              }}
-          >
+        <Box
+          sx={{
+            width: "100%",
+            display: 'flex',
+            flexDirection: 'column',   // apila los hijos verticalmente
+            justifyContent: 'center',  // centra verticalmente
+            alignItems: 'center'     // centra horizontalmente
+
+          }}
+        >
           <DateSelector />
           <AppointmentsList appointments={appointments} handleConfirm={handleConfirm} handleComplete={handleComplete} handleCancel={handleCancel} loadingAppointments={appointmentLoading} />
         </Box>
       </Box>
-      
-    
-     <Modal
+
+
+      <Modal
         open={openModal}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
@@ -195,8 +197,8 @@ export const AdminTurnoPage = () => {
           <Typography variant="h6" sx={{ mt: 2 }}>{selectedAppointment.service_name}</Typography>
           <Typography variant="body1" sx={{ mt: 2 }}>{t('i18n.appointments.013')}: {selectedAppointment.professional_name}</Typography>
           <Typography>
-            { t("i18n.appointments.019") }: {getI18nDay(selectedAppointment.date) + " " + formatDate(selectedAppointment.date)}<br />
-            { t("i18n.appointments.020") }: {selectedAppointment.start_hour}
+            {t("i18n.appointments.019")}: {getI18nDay(selectedAppointment.date) + " " + formatDate(selectedAppointment.date)}<br />
+            {t("i18n.appointments.020")}: {selectedAppointment.start_hour}
           </Typography>
 
           <Box mt={1}>
@@ -218,19 +220,19 @@ export const AdminTurnoPage = () => {
           )}
 
           {(modalMode === 'confirm' || modalMode === 'complete') && (
-           <Box mt={2} maxWidth="200px">
-            <FormControl fullWidth size="small">
-              <InputLabel htmlFor="amount">{t('i18n.appointments.017')}</InputLabel>
-              <OutlinedInput
-                id="amount"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                startAdornment={<InputAdornment position="start">$</InputAdornment>}
-                label={t('i18n.appointments.017')}
-                type="number"
-              />
-            </FormControl>
-          </Box>
+            <Box mt={2} maxWidth="200px">
+              <FormControl fullWidth size="small">
+                <InputLabel htmlFor="amount">{t('i18n.appointments.017')}</InputLabel>
+                <OutlinedInput
+                  id="amount"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                  label={t('i18n.appointments.017')}
+                  type="number"
+                />
+              </FormControl>
+            </Box>
           )}
 
           <Box display="flex" justifyContent="flex-start" gap={2} mt={2}>
@@ -275,7 +277,7 @@ export const AdminTurnoPage = () => {
         </Box>
       </Modal>
 
-    
+
     </AdminTurnoLayout>
   );
 }
