@@ -43,11 +43,11 @@ export const AdminHistoricoTurnosPage = () => {
     const matchesSearch = [appointment.client_name, appointment.professional_name]
       .some(field => field.toLowerCase().includes(searchTerm.toLowerCase()));
 
-    const matchesDate = () => {};
+    const matchesDate = () => { };
 
     const status = getStatusFromAppointment(appointment);
     const matchesStatus = statusFilter === 'all' || status === statusFilter;
-    
+
     return matchesSearch && matchesDate && matchesStatus;
 
   });
@@ -58,7 +58,10 @@ export const AdminHistoricoTurnosPage = () => {
       <Box mb={3}>
         <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
           <Typography variant="h4">{t('i18n.titles.001')}</Typography>
-          <Tooltip title={showFilters ? t('i18n.appointments.002') : t('i18n.appointments.001')}>
+          <Tooltip
+            placement="left"
+            title={showFilters ? t('i18n.appointments.002') : t('i18n.appointments.001')}
+          >
             <IconButton onClick={() => setShowFilters(prev => !prev)}>
               <Search />
             </IconButton>
@@ -69,7 +72,7 @@ export const AdminHistoricoTurnosPage = () => {
           <Grid container spacing={2} mb={3}>
             <Grid item xs={12} sm={6} md={4}>
               <TextField
-                label={ t('i18n.appointments.003') }
+                label={t('i18n.appointments.003')}
                 variant="outlined"
                 fullWidth
                 size="small"
@@ -87,11 +90,11 @@ export const AdminHistoricoTurnosPage = () => {
 
             <Grid item xs={12} sm={6} md={4}>
               <DatePicker
-                label={ t('i18n.appointments.004') }
+                label={t('i18n.appointments.004')}
                 value={selectedDate}
                 onChange={(newDate) => setSelectedDate(newDate)}
                 slotProps={{ textField: { size: 'small', fullWidth: true } }}
-                format={i18n.language === "es" ? "DD/MM/YYYY" : "MM/DD/YYYY"} 
+                format={i18n.language === "es" ? "DD/MM/YYYY" : "MM/DD/YYYY"}
               />
             </Grid>
 
@@ -100,7 +103,7 @@ export const AdminHistoricoTurnosPage = () => {
                 <InputLabel>{t("i18n.appointments.005")}</InputLabel>
                 <Select
                   value={statusFilter}
-                  label={ t('i18n.appointments.005') }
+                  label={t('i18n.appointments.005')}
                   onChange={(e) => setStatusFilter(e.target.value)}
                 >
                   <MenuItem value="all">{t('i18n.appointments.006')}</MenuItem>
